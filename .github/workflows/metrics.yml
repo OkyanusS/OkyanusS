@@ -1,0 +1,34 @@
+name: GitHub Metrics
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/metrics.yml'
+  schedule:
+    - cron: '23 3 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate profile metrics
+        uses: lowlighter/metrics@v3.34
+        with:
+          token: ${{ secrets.DIVA }}
+          user: OkyanusS
+          template: classic
+          filename: github-metrics.svg
+          base: header, activity, community, repositories, metadata
+          config_display: columns
+          config_timezone: Europe/Istanbul
+          config_twemoji: 'yes'
+          plugin_isocalendar: 'yes'
+          plugin_isocalendar_duration: full-year
+          plugin_habits: 'yes'
+          plugin_habits_facts: 'no'
+          plugin_habits_charts: 'yes'
+          plugin_languages: 'yes'
+          plugin_languages_details: percentage
